@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="产品运营作品集，收录用户调研、AI 内容工作流、产品原型与平台风险研究。">
+  <meta name="theme-color" content="#edddc3">
+  <title>纸间档案 · 个人网站简历</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="locales.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="startup" hidden>
+    <div class="startup-panel">
+      <span class="signature">纸间档案<span class="accent">.</span></span>
+      <p>正在整理档案</p>
+      <div class="startup-track" aria-hidden="true"><span></span></div>
+      <button class="startup-skip" type="button">跳过开场</button>
+    </div>
+  </div>
+
+  <div class="shell">
+    <main class="cabinet board" aria-label="作品档案板">
+      <header class="masthead">
+        <span class="signature">纸间档案<span class="accent">.</span></span>
+        <div class="masthead-actions">
+          <a class="profile-link" href="https://github.com/JostarPlatinum-DMY?tab=repositories" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <select id="site-language" class="language-select" aria-label="网站语言">
+            <option value="zh-CN">简体中文</option>
+            <option value="zh-Hant">繁體中文</option>
+            <option value="en">ENGLISH</option>
+          </select>
+        </div>
+      </header>
+      <div class="side-rail">
+        <aside class="directory">
+          <p class="eyebrow">档案索引</p>
+          <nav aria-label="档案索引">
+            <a href="#works">项目说明 <span aria-hidden="true">↗</span></a>
+            <a href="#skills">Skills 技能 <span aria-hidden="true">↗</span></a>
+            <a href="#about">个人信息 <span aria-hidden="true">↗</span></a>
+            <a href="#letters">研究档案 <span aria-hidden="true">↗</span></a>
+          </nav>
+          <p class="gesture"><span aria-hidden="true">✳</span><span><span class="desktop-gesture">滑过或拖动试试。<br></span>轻点物件，打开档案。</span></p>
+        </aside>
+        <section class="record-player" aria-labelledby="record-title">
+          <div class="record-console">
+            <button class="record-toggle" type="button" aria-label="播放唱片" aria-pressed="false">
+              <span class="record-disc" aria-hidden="true"><i></i></span>
+              <span class="record-arm" aria-hidden="true"></span>
+              <span class="record-action" aria-hidden="true"></span>
+            </button>
+            <div class="record-level">
+              <label for="record-volume">音量</label>
+              <input type="range" id="record-volume" min="0" max="100" value="42">
+              <output for="record-volume">42%</output>
+            </div>
+          </div>
+          <div class="record-track">
+            <h2 id="record-title">梦中的婚礼</h2>
+            <p lang="en">Richard Clayderman</p>
+          </div>
+          <audio src="assets/media/dream-wedding.mp3" preload="none" loop></audio>
+          <p class="record-error" role="status" hidden>暂时无法播放唱片。</p>
+        </section>
+      </div>
+
+      <section class="object-stage" aria-label="板上物件">
+        <button type="button" class="object works" data-object="works" aria-haspopup="dialog">
+          <span class="rig" aria-hidden="true"><i class="hook"></i><i class="ring"></i><i class="clip"></i></span>
+          <span class="surface">
+            <span class="screw top-left"></span><span class="screw top-right"></span>
+            <span class="screw bottom-left"></span><span class="screw bottom-right"></span>
+            <span class="folder-label">
+              <span class="folder-media" aria-hidden="true">
+                <span class="folder-photo"><img src="assets/sunset-video.webp" alt="" width="720" height="358"></span>
+              </span>
+              <span class="folder-copy">
+                <span class="object-name">项目说明</span>
+                <span class="translation" lang="en">PROJECT OVERVIEW</span>
+              </span>
+              <span class="object-arrow" aria-hidden="true">↗</span>
+            </span>
+          </span>
+        </button>
+
+        <button type="button" class="object keychain" data-object="skills" aria-haspopup="dialog">
+          <span class="rig" aria-hidden="true"><i class="hook"></i><i class="ring split-ring"></i></span>
+          <span class="surface key-set">
+            <span class="key key-brass" aria-hidden="true"><i class="key-bow"></i><i class="key-blade"></i></span>
+            <span class="key key-steel" aria-hidden="true"><i class="key-bow"></i><i class="key-blade"></i></span>
+            <span class="key-fob">
+              <span class="fob-eyelet" aria-hidden="true"></span>
+              <span class="object-name">技能</span>
+              <span class="translation">SKILLS</span>
+            </span>
+          </span>
+        </button>
+
+        <button type="button" class="object id-badge" data-object="about" aria-haspopup="dialog">
+          <span class="rig" aria-hidden="true"><i class="hook"></i><i class="strap"></i></span>
+          <span class="surface">
+            <span class="badge-paper">
+              <span class="badge-photo" aria-hidden="true"><img src="assets/sunset-personal.webp" alt="" width="720" height="358"></span>
+              <span class="badge-copy">
+                <span class="translation" lang="en">PERSONAL INFO</span>
+                <span class="object-name">个人信息</span>
+              </span>
+              <span class="object-arrow" aria-hidden="true">↗</span>
+            </span>
+          </span>
+        </button>
+
+        <button type="button" class="object contact" data-object="letters" aria-haspopup="dialog">
+          <span class="rig" aria-hidden="true"><i class="hook"></i><i class="ring"></i></span>
+          <span class="surface">
+            <span class="envelope-flap" aria-hidden="true"></span>
+            <span class="envelope-label">
+              <span class="translation">RESEARCH</span>
+              <span class="object-name">研究档案</span>
+            </span>
+            <span class="object-arrow" aria-hidden="true">↗</span>
+          </span>
+        </button>
+        <button type="button" class="board-insert" data-open-project="video" aria-haspopup="dialog">
+          <img src="assets/sunset-video.webp" alt="" width="720" height="358">
+          <span>AI 视频工作流 <span aria-hidden="true">↗</span></span>
+        </button>
+      </section>
+      <aside class="welcome" aria-label="欢迎与联系">
+        <div class="welcome-paper">
+          <h1>欢迎来到我的<span>个人网站简历</span></h1>
+          <div class="sun-control">
+            <label for="sunlight">夕光</label>
+            <input type="range" id="sunlight" min="32" max="100" value="78">
+          </div>
+        </div>
+        <section class="contact-tag" aria-label="联系方式">
+          <strong>联系方式</strong>
+          <span class="barcode-mark" aria-hidden="true"></span>
+          <div class="contact-lines">
+            <a href="tel:+8613886628517">+86 13886628517</a>
+            <a href="mailto:lhf1151964645@outlook.com">lhf1151964645@outlook.com</a>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+  </div>
+
+  <dialog id="reader" aria-labelledby="reader-title">
+    <div class="reader-sheet">
+      <header class="reader-tools">
+        <button type="button" class="reader-back" data-i18n-live hidden>← 收回书本</button>
+        <select id="reader-language" class="language-select reader-language" aria-label="网站语言">
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-Hant">繁體中文</option>
+          <option value="en">ENGLISH</option>
+        </select>
+        <button type="button" class="reader-close" aria-label="返回档案板" autofocus>✕</button>
+      </header>
+      <div class="reader-drawer">
+        <div class="reader-carrier">
+          <span class="carrier-edge" aria-hidden="true"></span>
+          <div class="reader-content"></div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <template id="view-works">
+    <p class="eyebrow works-kicker" lang="en">PROJECT OVERVIEW</p>
+    <h2 id="reader-title" tabindex="-1">项目说明</h2>
+    <div class="work-filters" aria-label="按项目类型筛选">
+      <button type="button" data-work-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-work-filter="operations" aria-pressed="false">运营项目</button>
+      <button type="button" data-work-filter="prototype" aria-pressed="false">工具原型</button>
+    </div>
+    <nav class="bookcase" aria-label="项目书架">
+      <div class="book-volume book-video" data-work-group="operations">
+        <button class="book-link" type="button" data-project="video" aria-expanded="false" aria-controls="front-video">
+          <span class="book-model"><span class="book-title">AI 宣传视频工作流</span><span class="book-mark" aria-hidden="true">↗</span></span>
+        </button>
+        <div class="book-front" id="front-video" inert></div>
+      </div>
+      <div class="book-volume book-market" data-work-group="operations">
+        <button class="book-link" type="button" data-project="market" aria-expanded="false" aria-controls="front-market">
+          <span class="book-model"><span class="book-title">CDKey 平台方案</span><span class="book-mark" aria-hidden="true">↗</span></span>
+        </button>
+        <div class="book-front" id="front-market" inert></div>
+      </div>
+      <div class="book-volume book-review" data-work-group="prototype">
+        <button class="book-link" type="button" data-project="campaign" aria-expanded="false" aria-controls="front-campaign">
+          <span class="book-model">
+            <span class="book-title">文案审阅台</span>
+            <span class="book-mark" aria-hidden="true">↗</span>
+          </span>
+        </button>
+        <div class="book-front" id="front-campaign" inert></div>
+      </div>
+      <div class="book-volume book-form" data-work-group="prototype">
+        <button class="book-link" type="button" data-project="resume" aria-expanded="false" aria-controls="front-resume">
+          <span class="book-model">
+            <span class="book-title">表单预填助手</span>
+            <span class="book-mark" aria-hidden="true">↗</span>
+          </span>
+        </button>
+        <div class="book-front" id="front-resume" inert></div>
+      </div>
+    </nav>
+  </template>
+
+  <template id="project-covers">
+    <div class="project-art art-campaign" data-cover="campaign"><img src="assets/sunset-editorial.webp" width="720" height="358" alt="夕光下的内容校样与平板电脑"></div>
+    <div class="project-art art-resume" data-cover="resume"><img src="assets/sunset-form.webp" width="720" height="358" alt="笔记本屏幕上的表单与触控板"></div>
+    <figure class="case-film" data-cover="video">
+      <video class="case-film-player" controls playsinline preload="none" poster="assets/sunset-video.webp" src="assets/media/President%20Show.mov.mov" aria-label="作品视频"></video>
+      <figcaption class="case-film-caption">
+        <div><span class="eyebrow">作品视频</span><strong lang="en">President Show</strong></div>
+        <a class="case-film-download" href="assets/media/President%20Show.mov.mov" download="President Show.mov.mov">下载原始 MOV ↗</a>
+      </figcaption>
+      <p class="case-film-error" role="status" hidden>当前浏览器无法播放此视频。请下载原文件观看。</p>
+    </figure>
+    <div class="project-art art-market" data-cover="market"><img src="assets/sunset-survey.webp" width="720" height="358" alt="调研桌上的问卷、便签与游戏手柄"></div>
+  </template>
+
+  <template id="view-video">
+    <p class="eyebrow">内容运营 / 个人课程项目 · 2026</p>
+    <h3 class="project-title" tabindex="-1">AI 宣传视频工作流</h3>
+    <div class="case-cover case-video-cover"></div>
+    <p class="reader-intro">围绕 GDPR 科普视频，梳理观众从看到违规情境到理解正确做法的观看路径。</p>
+    <dl class="evidence-metrics"><div><dt>受众画像</dt><dd>3 类</dd></div><div><dt>复盘方案</dt><dd>4 版</dd></div><div><dt>复盘镜头</dt><dd>12 组</dd></div></dl>
+    <div class="case-copy">
+      <section><h4>先定观看路径</h4><p>将内容拆成违规情境、风险解释和正确做法。按受众对规则的熟悉程度设定画像与信息理解指标。</p></section>
+      <section><h4>搭建生产流程</h4><p>用 DeepSeek 和 ChatGPT 辅助制作脚本与分镜，独立串联 ComfyUI 节点，联动即梦、可灵和 Sora 2 制作素材。</p></section>
+      <section><h4>模拟复盘与迭代</h4><p>按信息清晰度、镜头连贯性和复用成本对比四版方案，整理问题、下轮优先级及可复用的节点流程。</p></section>
+    </div>
+  </template>
+
+  <template id="view-market">
+    <p class="eyebrow">用户调研 / 大学生创业竞赛 · 2022</p>
+    <h3 class="project-title" tabindex="-1">游戏折扣 CDKey 平台方案</h3>
+    <p class="reader-intro">从大学生购买游戏的场景切入，设计连接发现、比价和社区互动的网页原型。</p>
+    <div class="case-cover"></div>
+    <dl class="evidence-metrics"><div><dt>有效问卷</dt><dd>86 份</dd></div><div><dt>模拟迭代</dt><dd>3 轮</dd></div><div><dt>竞赛结果</dt><dd>校级铜奖</dd></div></dl>
+    <div class="case-copy">
+      <section><h4>从数据提炼需求</h4><p>收集问卷，分析价格敏感度、社群互动及 MOD 偏好，归纳三类用户画像。</p></section>
+      <section><h4>把需求放进原型</h4><p>围绕游戏发现、比价购买和社区互动搭建网页原型，通过三轮模拟迭代梳理功能优先级。</p></section>
+    </div>
+  </template>
+
+  <template id="view-campaign">
+    <p class="eyebrow">公开工具 / Campaign Lens</p>
+    <h3 class="project-title" tabindex="-1">文案审阅台</h3>
+    <p class="reader-intro">在内容发布前，把值得人工核查的表达标出来。</p>
+    <div class="case-cover"></div>
+    <div class="case-copy">
+      <section><h4>问题</h4><p>审阅营销文案时，需要同时关注绝对化表述、效果承诺和促销条件。线索分散在文字中，反复查找容易打断审阅。</p></section>
+      <section><h4>做法</h4><p>把常见问题写成可检查的规则。输入中文文案后，界面指出命中原文，附上提示原因、核查问题和改写方向。文案在浏览器本地处理，审阅清单可复制为 Markdown。</p></section>
+      <section><h4>设计取舍</h4><p>将结果呈现为人工核查线索，保留上下文和判断空间。合规结论由审阅者结合实际情况作出。</p></section>
+    </div>
+    <a class="case-source" href="https://github.com/JostarPlatinum-DMY/campaign-lens" target="_blank" rel="noopener noreferrer">在 GitHub 查看项目 ↗</a>
+  </template>
+
+  <template id="view-resume">
+    <p class="eyebrow">公开工具 / 浏览器扩展</p>
+    <h3 class="project-title" tabindex="-1">表单预填助手</h3>
+    <p class="reader-intro">在不同招聘页面复用个人资料，填入前逐项核对。</p>
+    <div class="case-cover"></div>
+    <div class="case-copy">
+      <section><h4>问题</h4><p>多个招聘表单可能询问相同信息，字段名称和布局却各不相同。重复录入占用时间，也增加了错填的机会。</p></section>
+      <section><h4>做法</h4><p>在扩展中预先保存资料。打开招聘网页后，扩展识别可见字段并展示映射预览，用户核对、勾选后再填入。</p></section>
+      <section><h4>设计取舍</h4><p>把提交留给使用者。资料值保存在扩展本地，映射请求使用字段描述和已填写的资料字段名称。</p></section>
+    </div>
+    <a class="case-source" href="https://github.com/JostarPlatinum-DMY/resume-field-assistant" target="_blank" rel="noopener noreferrer">在 GitHub 查看项目 ↗</a>
+  </template>
+
+  <template id="view-skills">
+    <h2 id="reader-title" tabindex="-1">Skills 技能</h2>
+    <div class="skill-gallery" aria-label="技能轮播">
+      <div class="skill-rail" aria-label="滑动选择技能">
+        <button class="skill-option" type="button" aria-pressed="true" data-evidence="campaign" data-description="把合规规则整理成可核查的线索，帮助审阅者定位原句并保留判断空间。">
+          <span class="skill-art skill-art-review" aria-hidden="true"></span>
+          <span class="skill-name">内容审阅</span>
+        </button>
+        <button class="skill-option" type="button" aria-pressed="false" data-evidence="market" data-description="借助问卷归纳用户画像，再把发现、比价和社区需求排进原型。">
+          <span class="skill-art skill-art-structure" aria-hidden="true"></span>
+          <span class="skill-name">用户调研</span>
+        </button>
+        <button class="skill-option" type="button" aria-pressed="false" data-evidence="resume" data-description="把表单填写拆成识别、核对和填入，用可操作的扩展验证流程。">
+          <span class="skill-art skill-art-prototype" aria-hidden="true"></span>
+          <span class="skill-name">交互原型</span>
+        </button>
+        <button class="skill-option" type="button" aria-pressed="false" data-evidence="video" data-description="将受众画像、脚本、分镜和生成流程串联起来，对照评估不同版本。">
+          <span class="skill-art skill-art-motion" aria-hidden="true"></span>
+          <span class="skill-name">AI 内容工作流</span>
+        </button>
+        <button class="skill-option" type="button" aria-pressed="false" data-evidence="research" data-description="将法律检索和案例分析转成场景、风险与待核查问题，适用于平台和内容运营。">
+          <span class="skill-art skill-art-research" aria-hidden="true"></span>
+          <span class="skill-name">风险研究</span>
+        </button>
+      </div>
+      <div class="skill-caption">
+        <button type="button" class="skill-prev" aria-label="上一项技能">←</button>
+        <div class="skill-summary" data-i18n-live aria-live="polite"><strong></strong><p></p></div>
+        <button type="button" class="skill-next" aria-label="下一项技能">→</button>
+      </div>
+      <button type="button" class="skill-evidence">查看对应案例 ↗</button>
+    </div>
+  </template>
+
+  <template id="view-about">
+    <div class="about-card">
+      <div class="about-opening">
+        <h2 id="reader-title" tabindex="-1">个人信息</h2>
+        <p>我关注产品运营中的用户需求、内容流程与平台风险。法学训练让我习惯先理清事实和约束，再通过用户调研、内容流程或网页原型验证方案。</p>
+        <div class="about-graphic" aria-hidden="true"></div>
+      </div>
+      <div class="about-closing">
+        <div class="paper-stack about-details" data-paper-stack>
+          <div class="paper-tabs" aria-label="个人经历分类">
+            <button type="button" data-paper-tab="education" aria-pressed="true">教育</button>
+            <button type="button" data-paper-tab="practice" aria-pressed="false">实习</button>
+            <button type="button" data-paper-tab="toolkit" aria-pressed="false">工具与语言</button>
+          </div>
+          <div class="paper-deck">
+            <div class="paper-leaf note-card" data-paper-leaf="education">
+              <p><strong>澳门大学</strong> · 法学硕士，国际商法<br><small>2025.08 — 2027.08</small></p>
+              <p><strong>武汉工程大学</strong> · 法学学士<br><small>2020.09 — 2024.06</small></p>
+            </div>
+            <div class="paper-leaf note-card" data-paper-leaf="practice" hidden>
+              <div class="internship-timeline">
+                <article class="internship-entry">
+                  <div class="internship-heading"><div><h3>今天律师事务所</h3><p>业务助理</p></div><small>2024.11 — 2025.01</small></div>
+                  <dl>
+                    <dt>需求洞察</dt><dd>梳理客户合同纠纷、回款压力与履约诉求；以 8 组客户情境进行需求分层，形成核心诉求、约束条件和优先级清单。</dd>
+                    <dt>业务分析</dt><dd>按支付节点、争议类型和影响程度整理合同资料；以合同开展风险标注，输出“问题—风险—建议”结构化分析。</dd>
+                    <dt>方案推进</dt><dd>结合资金链与履约安排梳理协商选项；基于跟进情境设计优先级和节点清单，练习风险预警与沟通管理。</dd>
+                  </dl>
+                </article>
+                <article class="internship-entry">
+                  <div class="internship-heading"><div><h3>沙市区人民法院</h3><p>民事二庭实习生</p></div><small>2024.02 — 2024.04</small></div>
+                  <dl>
+                    <dt>信息检索</dt><dd>围绕股权转让、外资准入和进出口监管事项检索规定，按适用条件、风险点及待核实材料建立要点清单。</dd>
+                    <dt>证据分析</dt><dd>结构化梳理案卷事实、时间线和证据对应关系；以 15 件案件资料练习争点分类与缺口识别，输出核查清单辅助文书整理。</dd>
+                    <dt>沟通观察</dt><dd>通过庭审旁听归纳当事人核心诉求、争议分歧与回应逻辑，形成可迁移的访谈提问和问题澄清方法。</dd>
+                  </dl>
+                </article>
+              </div>
+            </div>
+            <div class="paper-leaf note-card" data-paper-leaf="toolkit" hidden>
+              <p><strong>AI 深度使用</strong> · 用 DeepSeek 和 ChatGPT 辅助脚本、分镜及方案复盘，独立串联 ComfyUI 节点，并使用即梦、可灵和 Sora 2 制作素材。</p>
+              <p><strong>个人 AI 项目经验</strong> · 独立搭建 GDPR 科普视频工作流，模拟复盘 4 版方案与 12 组镜头，整理下一轮优化优先级。</p>
+              <p><strong>Python 基础</strong> · 数据抓取、清洗和自动化处理</p>
+              <p><strong>办公软件与英语</strong> · Office，雅思 6.0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="view-letters">
+    <p class="eyebrow">RESEARCH NOTES</p>
+    <h2 id="reader-title" tabindex="-1">研究档案</h2>
+    <img class="research-scene" src="assets/sunset-research.webp" width="720" height="358" alt="夕光落在书页、研究笔记和打印图表上">
+    <div class="paper-stack letter-stack" data-paper-stack>
+      <div class="paper-tabs" aria-label="研究主题">
+        <button type="button" data-paper-tab="generative" aria-pressed="true">AIGC 与电商内容</button>
+        <button type="button" data-paper-tab="livestream" aria-pressed="false">直播打赏</button>
+      </div>
+      <div class="paper-deck">
+        <article class="paper-leaf note-card research-letter" data-paper-leaf="generative">
+          <p class="eyebrow">2024.05 / 电商平台</p>
+          <h3>生成式 AI 在电商营销中的侵权问题</h3>
+          <p>梳理商品描述、营销图和 AI 客服等应用，聚焦营销素材生成中的知识产权与合规风险，形成研究报告。</p>
+          <details class="clip-reveal">
+            <summary><span aria-hidden="true" class="binder-clip"></span>展开研究切入点</summary>
+            <p class="drawing">按内容生成场景整理素材使用方式、涉及的权利与待核查问题。</p>
+          </details>
+        </article>
+        <article class="paper-leaf note-card research-letter" data-paper-leaf="livestream" hidden>
+          <p class="eyebrow">2023.06 / 直播平台</p>
+          <h3>网络直播打赏的用户行为与平台风险</h3>
+          <p>整理 20 余个直播打赏案例，分析打赏动机和流量变现逻辑，形成报告并提出平台合规建议。</p>
+          <details class="clip-reveal">
+            <summary><span aria-hidden="true" class="binder-clip"></span>展开案例分析路径</summary>
+            <p class="drawing">按打赏行为和争议归纳案例，观察用户动机、平台机制和风险如何关联。</p>
+          </details>
+        </article>
+      </div>
+    </div>
+  </template>
+</body>
+</html>
