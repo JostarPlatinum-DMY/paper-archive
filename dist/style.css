@@ -612,6 +612,16 @@ button { font: inherit; }
 }
 .book-form.is-open .book-front { background: #f3f7f2; box-shadow: inset 4px 0 0 #c6d4c9, 0 6px 15px #28292228; }
 .book-market.is-open .book-front { background: #f8f5fb; box-shadow: inset 4px 0 0 #dad1e0, 0 6px 15px #28292228; }
+.keycamp-section { margin: 0 0 14px; }
+.keycamp-section > summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 13px; border: 1px solid #9d88b1; border-radius: 8px; background: #eee6f4; color: #392d46; font-size: 13px; font-weight: 760; cursor: pointer; list-style: none; }
+.keycamp-section > summary::-webkit-details-marker { display: none; }
+.keycamp-section > summary::after { content: '↓'; }
+.keycamp-section[open] > summary::after { content: '↑'; }
+.keycamp-section > summary:hover { background: #e7dbef; }
+.keycamp-section keycamp-demo { display: block; margin-top: 9px; }
+.keycamp-section[open] ~ .case-cover { display: none; }
+.bookcase:has(.book-market.is-open:not(.is-closing) .keycamp-section[open]) { height: clamp(320px, 62dvh, 650px); }
+.bookcase:has(.book-market.is-open:not(.is-closing) .keycamp-section[open]) > .book-volume:not(.book-market) { display: none; }
 .book-video.is-open .book-front { background: #fff9eb; box-shadow: inset 4px 0 0 #e4d6b7, 0 6px 15px #28292228; }
 @keyframes turn-front { from { opacity: 0; transform: rotateY(-48deg); } 45% { opacity: 1; } to { opacity: 1; transform: none; } }
 .book-volume.is-closing { animation: volume-fold 320ms cubic-bezier(.4,0,.28,1) both; }

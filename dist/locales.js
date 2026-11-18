@@ -10,6 +10,7 @@ const translatedCopy = {
   "项目说明": ["項目說明","Project Overview"],
   "Skills 技能": ["Skills 技能","Skills"],
   "个人信息": ["個人資訊","Personal Info"],
+  "体验 KeyCamp 交互原型": ["體驗 KeyCamp 互動原型","Try the KeyCamp prototype"],
   "研究档案": ["研究檔案","Research Archive"],
   "滑过或拖动试试。": ["滑過或拖動試試。","Hover over or drag an object."],
   "轻点物件，打开档案。": ["輕點物件，打開檔案。","Click an object to open it."],
