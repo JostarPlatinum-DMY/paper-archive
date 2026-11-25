@@ -668,7 +668,8 @@ try { savedLanguage = localStorage.getItem(languageStorageKey); } catch { /* Use
 applyLanguage(savedLanguage);
 languageSelectors.forEach(selector => selector.addEventListener('change', () => applyLanguage(selector.value)));
 initRecordPlayer();
-playStartup().then(() => {
+window.portfolioTranslate = translate;
+window.portfolioRoom.start({ bypass: Boolean(getRoute()) }).then(() => {
   const route = getRoute();
   if (projectRoutes.has(route)) openReader('works', undefined, route);
   else if (route) openReader(route);

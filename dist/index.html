@@ -7,11 +7,36 @@
   <meta name="theme-color" content="#edddc3">
   <title>纸间档案 · 个人网站简历</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="room.css">
   <script defer src="locales.js"></script>
   <script defer src="assets/keycamp/embed.js"></script>
+  <script defer src="room-world.js"></script>
+  <script defer src="room.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
+  <section class="studio" id="studio" aria-label="像素工作室" hidden>
+    <header class="studio-header">
+      <div><strong>纸间档案</strong><span lang="en">MY LITTLE STUDIO</span></div>
+      <button type="button" class="studio-skip">直接查看简历 ↗</button>
+    </header>
+    <div class="studio-viewport">
+      <canvas id="studio-canvas" width="1672" height="941" tabindex="0" aria-label="工作室地图，使用方向键移动，E 键互动"></canvas>
+      <button type="button" class="studio-interact" hidden><kbd>E</kbd> <span></span></button>
+      <div class="studio-loading" role="status">正在打开工作室…</div>
+    </div>
+    <div class="studio-message" role="status" hidden></div>
+    <footer class="studio-footer">
+      <p><kbd>W A S D</kbd> <span>移动</span><kbd>E</kbd> <span>互动</span><span class="click-hint">也可以点击地面行走</span></p>
+      <button type="button" class="studio-sound" aria-pressed="false">音乐</button>
+    </footer>
+    <div class="studio-touch" aria-label="移动控制">
+      <button type="button" data-direction="up" aria-label="向上移动">↑</button>
+      <button type="button" data-direction="left" aria-label="向左移动">←</button>
+      <button type="button" data-direction="down" aria-label="向下移动">↓</button>
+      <button type="button" data-direction="right" aria-label="向右移动">→</button>
+    </div>
+  </section>
   <div class="startup" hidden>
     <div class="startup-panel">
       <span class="signature">纸间档案<span class="accent">.</span></span>
@@ -26,6 +51,7 @@
       <header class="masthead">
         <span class="signature">纸间档案<span class="accent">.</span></span>
         <div class="masthead-actions">
+          <button type="button" class="profile-link studio-return">回到工作室</button>
           <a class="profile-link" href="https://github.com/JostarPlatinum-DMY?tab=repositories" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
           <select id="site-language" class="language-select" aria-label="网站语言">
             <option value="zh-CN">简体中文</option>

@@ -1,0 +1,37 @@
+.studio { position: fixed; z-index: 8; inset: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; background: #fcf0dd; color: #583724; overflow: hidden; }
+.studio-header { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px clamp(14px, 3vw, 48px) 0; pointer-events: none; }
+.studio-header > div { display: grid; gap: 5px; }
+.studio-header strong { font-size: clamp(23px, 3vw, 37px); line-height: 1; letter-spacing: -.08em; }
+.studio-header span { font: 10px var(--mono); letter-spacing: .16em; }
+.studio-header button, .studio-sound { pointer-events: auto; border: 1px solid #80563b; border-radius: 7px; color: #583724; background: #fff5e3dc; padding: 9px 13px; font-size: 13px; }
+.studio-header button:hover, .studio-sound:hover { background: #f1d5ad; }
+.studio-viewport { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+#studio-canvas { display: block; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; outline-offset: -5px; cursor: crosshair; touch-action: none; }
+.studio-interact { position: absolute; z-index: 2; translate: -50% -100%; border: 1px solid #744b32; box-shadow: 0 3px 0 #6c4a2c42; border-radius: 7px; background: #fff5e7; color: #513421; padding: 7px 9px; font-size: clamp(11px, 1.2vw, 15px); white-space: nowrap; }
+.studio-interact::after { position: absolute; top: calc(100% - 3px); left: calc(50% - 5px); width: 8px; height: 8px; border: solid #744b32; border-width: 0 1px 1px 0; rotate: 45deg; background: #fff5e7; content: ''; }
+.studio kbd { display: inline-grid; place-items: center; min-width: 23px; min-height: 23px; padding: 2px 5px; border: 1px solid #9b7355; border-radius: 4px; background: #fff4e4; box-shadow: 0 2px 0 #b6967154; font: 12px var(--mono); }
+.studio-loading { position: absolute; inset: 0; display: grid; place-items: center; background: #fcf0dd; color: #80563b; font-size: 14px; }
+.studio-footer { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 0 20px 14px; z-index: 3; }
+.studio-footer p { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0; font-size: 12px; }
+.studio-footer .click-hint { color: #8e715b; font-size: 11px; margin-left: 4px; }
+.studio-sound[aria-pressed='true'] { color: #fef6e7; background: #80563b; }
+.studio-message { position: absolute; bottom: 70px; left: 50%; translate: -50% 0; z-index: 3; width: max-content; max-width: calc(100% - 30px); padding: 10px 16px; border: 1px solid #b28a65; border-radius: 7px; background: #fff8ebee; color: #633f2e; font-size: 13px; line-height: 1.6; text-align: center; box-shadow: 0 8px 25px #694d2e1f; }
+.studio-touch { display: none; position: absolute; bottom: 65px; left: 20px; grid-template-columns: repeat(3, 38px); grid-template-rows: repeat(2, 38px); gap: 4px; z-index: 3; }
+.studio-touch button { touch-action: none; user-select: none; border: 1px solid #926f4ba8; border-radius: 7px; background: #fff7e5c4; color: #5b3a23; font-size: 18px; }
+.studio-touch [data-direction='up'] { grid-column: 2; }
+.studio-touch [data-direction='left'] { grid-column: 1; grid-row: 2; }
+.studio-touch [data-direction='down'] { grid-column: 2; grid-row: 2; }
+.studio-touch [data-direction='right'] { grid-column: 3; grid-row: 2; }
+.studio-return { font: inherit; font-size: 11px; cursor: pointer; }
+.studio.is-entering .studio-header, .studio.is-entering .studio-footer, .studio.is-entering .studio-touch, .studio.is-entering .studio-interact, .studio.is-entering .studio-message { opacity: 0; pointer-events: none; transition: opacity 200ms; }
+@media (pointer: coarse) { .studio-touch { display: grid; } .studio-footer p > kbd, .studio-footer p > span:not(.click-hint) { display: none; } .studio-footer .click-hint { font-size: 10px; } }
+@media (max-width: 620px) {
+  .studio-header { padding: 17px 13px 0; align-items: start; }
+  .studio-header button { padding: 8px; font-size: 11px; }
+  .studio-header span { font-size: 8px; }
+  .studio-footer { padding: 0 10px 16px; gap: 10px; }
+  .studio-footer p { gap: 6px; font-size: 10px; }
+  .studio-footer .click-hint { display: none; }
+  .studio-sound { padding: 7px; font-size: 11px; }
+  .studio-return { max-width: 65px; white-space: normal; padding: 5px; font-size: 9px; }
+}
