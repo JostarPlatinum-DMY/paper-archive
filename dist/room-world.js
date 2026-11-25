@@ -49,9 +49,67 @@
     if (!visited.has(to.key)) return [];
     const path = [];
     for (let at = to; at; at = visited.get(at.key)) path.unshift({ x: at.x, y: at.y });
-    return path;
+    // Keep only useful turns, with sampled clearance around furniture.
+    const clear = (a, b) => {
+      const steps = Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / .05);
+      for (let i = 1; i <= steps; i++) if (!walkable(a.x + (b.x - a.x) * i / steps, a.y + (b.y - a.y) * i / steps)) return false;
+      return true;
+    };
+    const smooth = [];
+    let anchor = start, index = 0;
+    while (index < path.length) {
+      let next = index;
+      while (next + 1 < path.length && clear(anchor, path[next + 1])) next++;
+      smooth.push(path[next]); anchor = path[next]; index = next + 1;
+    }
+    return smooth;
   }
-  const world = { obstacles, hotspots, project, unproject, walkable, pathTo };
+  function moveActor(actor, screenX, screenY, path, elapsed) {
+    const speed = 2.35;
+    const start = { x: actor.x, y: actor.y };
+    actor.vx ??= 0; actor.vy ??= 0;
+    const manual = Boolean(screenX || screenY);
+    const direction = manual ? unproject(835 + screenX * 65, 432 + screenY * 48) : null;
+    const duration = Math.max(0, Math.min(elapsed, .05));
+    const steps = Math.max(1, Math.ceil(duration * 120)), dt = duration / steps;
+    let traveled = 0;
+    for (let i = 0; i < steps; i++) {
+      let tx = 0, ty = 0;
+      if (manual) {
+        const length = Math.hypot(direction.x, direction.y);
+        tx = direction.x / length * speed; ty = direction.y / length * speed;
+      } else if (path.length) {
+        let target = path[0];
+        let distance = Math.hypot(target.x - actor.x, target.y - actor.y);
+        while (distance < .025 && path.length) {
+          path.shift(); target = path[0];
+          if (!target) break;
+          distance = Math.hypot(target.x - actor.x, target.y - actor.y);
+        }
+        if (target) {
+          const pace = path.length === 1 ? Math.min(speed, distance * 9) : speed;
+          tx = (target.x - actor.x) / distance * pace;
+          ty = (target.y - actor.y) / distance * pace;
+        }
+      }
+      const easing = 1 - Math.exp(-(tx || ty ? 16 : 25) * dt);
+      actor.vx += (tx - actor.vx) * easing; actor.vy += (ty - actor.vy) * easing;
+      if (Math.hypot(actor.vx, actor.vy) < .015 && !tx && !ty) actor.vx = actor.vy = 0;
+      const beforeX = actor.x, beforeY = actor.y;
+      const dx = actor.vx * dt, dy = actor.vy * dt;
+      if (walkable(actor.x + dx, actor.y)) actor.x += dx; else actor.vx = 0;
+      if (walkable(actor.x, actor.y + dy)) actor.y += dy; else actor.vy = 0;
+      traveled += Math.hypot(actor.x - beforeX, actor.y - beforeY);
+    }
+    const dx = actor.x - start.x, dy = actor.y - start.y;
+    if (traveled > .0005) {
+      const sx = dx * 63.3 - dy * 63.5, sy = dx * 25.4 + dy * 23.1;
+      if (Math.hypot(sx, sy) > .08) actor.facing = Math.abs(sy) > Math.abs(sx) * .65 ? (sy < 0 ? 'up' : 'down') : (sx < 0 ? 'left' : 'right');
+      actor.walk = (actor.walk || 0) + traveled * Math.PI * 2 / 1.65;
+    }
+    return traveled / Math.max(duration, .001);
+  }
+  const world = { obstacles, hotspots, project, unproject, walkable, pathTo, moveActor };
   if (typeof module !== 'undefined' && module.exports) module.exports = world;
   else global.RoomWorld = world;
 })(globalThis);

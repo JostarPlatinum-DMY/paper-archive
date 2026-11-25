@@ -10,9 +10,11 @@
   const sound = studio.querySelector('.studio-sound');
   const world = RoomWorld;
   const image = new Image();
+  const walking = new Image(), resting = new Image();
+  let walkAtlas, idleAtlas;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const held = new Set();
-  const person = { x: 6.6, y: 6.7, facing: 'up', walk: 0 };
+  const person = { x: 6.6, y: 6.7, facing: 'up', walk: 0, vx: 0, vy: 0 };
   let ready = false, visible = false, entering = false, frame = 0, previousTime;
   let path = [], queuedInteraction, closest, complete, messageTimer, sitting = false;
   let zoom = 1, blend = 1, deskLit = false;
@@ -34,12 +36,57 @@
 
   function rect(x, y, w, h, color) { context.fillStyle = color; context.fillRect(Math.round(x), Math.round(y), w, h); }
 
+  function prepareAtlas(source, columns, rows, standingCount) {
+    const sheet = document.createElement('canvas');
+    sheet.width = source.naturalWidth; sheet.height = source.naturalHeight;
+    const painter = sheet.getContext('2d', { willReadFrequently: true });
+    painter.drawImage(source, 0, 0);
+    const pixels = painter.getImageData(0, 0, sheet.width, sheet.height);
+    // Discard near-transparent matte residue, preserving the illustrated edge.
+    for (let i = 3; i < pixels.data.length; i += 4) if (pixels.data[i] < 32) pixels.data[i] = 0;
+    painter.putImageData(pixels, 0, 0);
+    const frames = [];
+    for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
+      const left = Math.round(col * sheet.width / columns), right = Math.round((col + 1) * sheet.width / columns);
+      const top = Math.round(row * sheet.height / rows), bottom = Math.round((row + 1) * sheet.height / rows);
+      let x0 = right, y0 = bottom, x1 = left, y1 = top;
+      for (let y = top; y < bottom; y++) for (let x = left; x < right; x++) {
+        if (pixels.data[(y * sheet.width + x) * 4 + 3] < 80) continue;
+        x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+      }
+      if (x0 > x1) throw new Error('Empty character frame');
+      // Align the torso rather than the swinging shoes to prevent sideways jitter.
+      let upperLeft = right, upperRight = left;
+      for (let y = y0 + Math.round((y1 - y0) * .17); y < y0 + (y1 - y0) * .43; y++) for (let x = x0; x <= x1; x++) {
+        if (pixels.data[(y * sheet.width + x) * 4 + 3] < 128) continue;
+        upperLeft = Math.min(upperLeft, x); upperRight = Math.max(upperRight, x);
+      }
+      frames.push({ x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1, anchor: (upperLeft + upperRight) / 2 - x0 });
+    }
+    const height = frames.slice(0, standingCount).reduce((sum, frame) => sum + frame.h, 0) / standingCount;
+    return { sheet, frames, scale: 236 / height };
+  }
+
   function drawPerson(time, moving) {
     const point = sitting ? { x: 1330, y: 672 } : world.project(person.x, person.y);
     context.save();
-    context.translate(Math.round(point.x), Math.round(point.y));
+    context.translate(point.x, point.y);
     context.fillStyle = '#4f352d3b';
     context.beginPath(); context.ellipse(5, -1, 23, 8, .12, 0, Math.PI * 2); context.fill();
+    const atlas = (!moving || sitting || reduced.matches) && idleAtlas ? idleAtlas : walkAtlas;
+    if (atlas) {
+      const direction = { up: 0, right: 1, down: 2, left: 3 }[person.facing];
+      const pose = atlas === idleAtlas ? (sitting ? 4 : direction) : direction * 6 + (moving && !reduced.matches ? Math.floor(person.walk / (Math.PI * 2) * 6) % 6 : 1);
+      const sprite = atlas.frames[pose], scale = atlas.scale;
+      const breath = !moving && !reduced.matches ? Math.sin(time / 1250) * .003 : 0;
+      context.imageSmoothingEnabled = true; context.imageSmoothingQuality = 'high';
+      context.drawImage(atlas.sheet, sprite.x, sprite.y, sprite.w, sprite.h,
+        -sprite.anchor * scale, -sprite.h * scale * (1 + breath) - 2,
+        sprite.w * scale, sprite.h * scale * (1 + breath));
+      context.restore();
+      return;
+    }
+    // Compact fallback while the detailed sprite textures load.
     const scale = 3;
     const bob = !reduced.matches && moving ? Math.round(Math.sin(person.walk) * 1) : 0;
     context.scale(scale, scale);
@@ -118,37 +165,20 @@
     const bounds = canvas.getBoundingClientRect();
     const scale = Math.min(bounds.width / 1672, bounds.height / 941);
     prompt.style.left = (bounds.width - 1672 * scale) / 2 + point.x * scale + 'px';
-    prompt.style.top = (bounds.height - 941 * scale) / 2 + (point.y - 144) * scale + 'px';
+    prompt.style.top = (bounds.height - 941 * scale) / 2 + (point.y - (sitting ? 220 : 254)) * scale + 'px';
   }
 
   function tick(time) {
     if (!visible) { frame = 0; return; }
     const dt = Math.min((time - previousTime) / 1000 || .016, .035);
     previousTime = time;
-    let dx = 0, dy = 0;
     const screenX = Number(held.has('right')) - Number(held.has('left'));
     const screenY = Number(held.has('down')) - Number(held.has('up'));
     if (!entering && (screenX || screenY)) {
       path = []; queuedInteraction = undefined; sitting = false;
-      const direction = world.unproject(835 + screenX * 65, 432 + screenY * 48);
-      const length = Math.hypot(direction.x, direction.y);
-      dx = direction.x / length * dt * 2.35; dy = direction.y / length * dt * 2.35;
-    } else if (!entering && path.length) {
-      const target = path[0];
-      const x = target.x - person.x, y = target.y - person.y, distance = Math.hypot(x, y);
-      const step = Math.min(distance, dt * 2.35);
-      if (distance < .04) path.shift();
-      else { dx = x / distance * step; dy = y / distance * step; }
     }
-    const moving = Math.abs(dx) + Math.abs(dy) > .0001;
-    if (moving) {
-      const projected = world.project(dx, dy);
-      const sx = projected.x - 835, sy = projected.y - 432;
-      person.facing = Math.abs(sy) > Math.abs(sx) * .6 ? (sy < 0 ? 'up' : 'down') : (sx < 0 ? 'left' : 'right');
-      if (world.walkable(person.x + dx, person.y)) person.x += dx;
-      if (world.walkable(person.x, person.y + dy)) person.y += dy;
-      person.walk += dt * 12;
-    }
+    const pace = !entering && !sitting ? world.moveActor(person, screenX, screenY, path, dt) : 0;
+    const moving = pace > .08;
     closest = world.hotspots.filter(item => Math.hypot(item.x - person.x, item.y - person.y) < 1.15)
       .sort((a, b) => Math.hypot(a.x - person.x, a.y - person.y) - Math.hypot(b.x - person.x, b.y - person.y))[0];
     if (!path.length && queuedInteraction && !entering) {
@@ -166,6 +196,7 @@
   }
   function interact(item = closest) {
     if (!item || entering) return;
+    path = []; held.clear(); person.vx = person.vy = 0;
     person.facing = 'up';
     if (item.id === 'board') enter(true);
     if (item.id === 'record') music();
@@ -202,6 +233,7 @@
   function show() {
     if (visible) return;
     visible = true; entering = false; zoom = 1; blend = 1; path = []; held.clear();
+    person.vx = person.vy = 0; queuedInteraction = undefined;
     studio.classList.remove('is-entering'); studio.style.opacity = '1';
     studio.hidden = false; shell.inert = true;
     loading.hidden = ready;
@@ -213,6 +245,10 @@
   image.addEventListener('load', () => { ready = true; loading.hidden = true; if (visible) say('走到洞洞板前，按 E 打开简历。'); });
   image.addEventListener('error', () => { loading.textContent = copy('房间暂时无法加载，请直接查看简历。'); });
   image.src = 'assets/studio/room.webp';
+  walking.addEventListener('load', () => { try { walkAtlas = prepareAtlas(walking, 6, 4, 24); } catch (error) { console.warn('Character walk atlas unavailable', error); } });
+  resting.addEventListener('load', () => { try { idleAtlas = prepareAtlas(resting, 3, 2, 4); } catch (error) { console.warn('Character idle atlas unavailable', error); } });
+  walking.src = 'assets/studio/character-walk-v2.webp';
+  resting.src = 'assets/studio/character-idle-v2.webp';
   window.addEventListener('keydown', event => {
     if (!visible || entering || event.ctrlKey || event.metaKey || event.altKey || event.target.closest('button, input, select')) return;
     const direction = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right' }[event.code];
